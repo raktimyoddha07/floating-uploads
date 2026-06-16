@@ -1,0 +1,231 @@
+// This file is auto-generated. Do not edit directly.
+
+// --- datasource.prisma ---
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+// --- generator.prisma ---
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+// --- notification.prisma ---
+enum NotificationType {
+  NEW_REQUEST
+  REQUEST_APPROVED
+  REQUEST_REJECTED
+  UPLOAD_COMPLETED
+  UPLOAD_FAILED
+  ACCESS_GRANTED
+}
+
+
+// --- payment-status.prisma ---
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+
+// --- permissions.prisma ---
+enum PermissionType {
+  SHORTS
+  LONG_VIDEO
+  BOTH
+}
+
+
+// --- upload-request-status.prisma ---
+enum UploadRequestStatus {
+  DRAFT
+  PENDING_REVIEW
+  APPROVED
+  SCHEDULED
+  UPLOADING
+  UPLOADED
+  REJECTED
+  FAILED
+}
+
+
+// --- upload-type.prisma ---
+enum UploadType {
+  SHORTS
+  LONG_VIDEO
+}
+
+
+// --- activity.prisma ---
+model Activity {
+  id          String   @id @default(cuid())
+  userId      String
+  action      String
+  details     String?
+  createdAt   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+
+// --- audit-log.prisma ---
+model AuditLog {
+  id          String   @id @default(cuid())
+  action      String
+  entityId    String
+  entityType  String
+  actorId     String
+  details     String?
+  createdAt   DateTime @default(now())
+}
+
+
+// --- channel.prisma ---
+model Channel {
+  id          String   @id @default(cuid())
+  ownerId     String
+  name        String
+  youtubeId   String   @unique
+  handle      String?
+  pictureUrl  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  assignments UploaderAssignment[]
+  requests    UploadRequest[]
+}
+
+
+// --- email-log.prisma ---
+model EmailLog {
+  id          String   @id @default(cuid())
+  to          String
+  subject     String
+  status      String
+  error       String?
+  createdAt   DateTime @default(now())
+}
+
+
+// --- notification.prisma ---
+model Notification {
+  id          String   @id @default(cuid())
+  userId      String
+  type        NotificationType
+  title       String
+  message     String
+  isRead      Boolean  @default(false)
+  link        String?
+  createdAt   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+
+// --- payment.prisma ---
+model Payment {
+  id          String   @id @default(cuid())
+  userId      String
+  amount      Float
+  currency    String
+  status      PaymentStatus
+  razorpayId  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+
+// --- upload-job.prisma ---
+model UploadJob {
+  id              String   @id @default(cuid())
+  uploadRequestId String   @unique
+  status          String
+  retries         Int      @default(0)
+  error           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+
+// --- upload-request.prisma ---
+model UploadRequest {
+  id          String              @id @default(cuid())
+  uploaderId  String
+  channelId   String
+  title       String?
+  description String?
+  note        String?
+  type        UploadType
+  status      UploadRequestStatus @default(DRAFT)
+  videoUrl    String?
+  thumbnailUrl String?
+  scheduledFor DateTime?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  uploader    User                @relation(fields: [uploaderId], references: [id], onDelete: Cascade)
+  channel     Channel             @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  videoMetadata VideoMetadata?
+}
+
+
+// --- uploader-assignment.prisma ---
+model UploaderAssignment {
+  id          String   @id @default(cuid())
+  ownerId     String
+  uploaderId  String
+  channelId   String
+  permission  PermissionType
+  grantedAt   DateTime @default(now())
+  revokedAt   DateTime?
+
+  owner       User     @relation("OwnedAssignments", fields: [ownerId], references: [id], onDelete: Cascade)
+  uploader    User     @relation("UploaderAssignments", fields: [uploaderId], references: [id], onDelete: Cascade)
+  channel     Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+}
+
+
+// --- user.prisma ---
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  username      String?   @unique
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  channels            Channel[]
+  ownedAssignments    UploaderAssignment[] @relation("OwnedAssignments")
+  uploaderAssignments UploaderAssignment[] @relation("UploaderAssignments")
+  uploadRequests      UploadRequest[]
+  activities          Activity[]
+  notifications       Notification[]
+  payments            Payment[]
+}
+
+
+// --- video-metadata.prisma ---
+model VideoMetadata {
+  id              String   @id @default(cuid())
+  uploadRequestId String   @unique
+  resolution      String?
+  duration        Float?
+  codec           String?
+  fileSizeBytes   BigInt?
+  fps             Float?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  request         UploadRequest @relation(fields: [uploadRequestId], references: [id], onDelete: Cascade)
+}
+
+

@@ -1,0 +1,13 @@
+model VideoMetadata {
+  id              String   @id @default(cuid())
+  uploadRequestId String   @unique
+  resolution      String?
+  duration        Float?
+  codec           String?
+  fileSizeBytes   BigInt?
+  fps             Float?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  request         UploadRequest @relation(fields: [uploadRequestId], references: [id], onDelete: Cascade)
+}

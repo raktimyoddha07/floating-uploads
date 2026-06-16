@@ -1,0 +1,19 @@
+model UploadRequest {
+  id          String              @id @default(cuid())
+  uploaderId  String
+  channelId   String
+  title       String?
+  description String?
+  note        String?
+  type        UploadType
+  status      UploadRequestStatus @default(DRAFT)
+  videoUrl    String?
+  thumbnailUrl String?
+  scheduledFor DateTime?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  uploader    User                @relation(fields: [uploaderId], references: [id], onDelete: Cascade)
+  channel     Channel             @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  videoMetadata VideoMetadata?
+}

@@ -1,0 +1,14 @@
+model Channel {
+  id          String   @id @default(cuid())
+  ownerId     String
+  name        String
+  youtubeId   String   @unique
+  handle      String?
+  pictureUrl  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  assignments UploaderAssignment[]
+  requests    UploadRequest[]
+}

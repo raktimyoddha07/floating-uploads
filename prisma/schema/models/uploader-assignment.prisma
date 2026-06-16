@@ -1,0 +1,13 @@
+model UploaderAssignment {
+  id          String   @id @default(cuid())
+  ownerId     String
+  uploaderId  String
+  channelId   String
+  permission  PermissionType
+  grantedAt   DateTime @default(now())
+  revokedAt   DateTime?
+
+  owner       User     @relation("OwnedAssignments", fields: [ownerId], references: [id], onDelete: Cascade)
+  uploader    User     @relation("UploaderAssignments", fields: [uploaderId], references: [id], onDelete: Cascade)
+  channel     Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+}

@@ -1,0 +1,18 @@
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  username      String?   @unique
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  channels            Channel[]
+  ownedAssignments    UploaderAssignment[] @relation("OwnedAssignments")
+  uploaderAssignments UploaderAssignment[] @relation("UploaderAssignments")
+  uploadRequests      UploadRequest[]
+  activities          Activity[]
+  notifications       Notification[]
+  payments            Payment[]
+}

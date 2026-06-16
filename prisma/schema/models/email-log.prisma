@@ -1,0 +1,8 @@
+model EmailLog {
+  id          String   @id @default(cuid())
+  to          String
+  subject     String
+  status      String
+  error       String?
+  createdAt   DateTime @default(now())
+}
