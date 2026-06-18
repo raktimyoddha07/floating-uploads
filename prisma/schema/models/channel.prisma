@@ -5,6 +5,9 @@ model Channel {
   youtubeId   String   @unique
   handle      String?
   pictureUrl  String?
+  accessToken String?  @db.Text
+  refreshToken String? @db.Text
+  tokenExpiresAt DateTime?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

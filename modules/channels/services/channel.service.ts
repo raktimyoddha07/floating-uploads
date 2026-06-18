@@ -13,9 +13,15 @@ export class ChannelService {
       ownerId,
       name,
       youtubeId: mockYoutubeId,
-      handle: `@${name.toLowerCase().replace(/\s+/g, '')}`,
-      pictureUrl: "https://api.dicebear.com/7.x/initials/svg?seed=" + encodeURIComponent(name),
+      handle: `@${name.toLowerCase().replace(/\s+/g, "")}`,
+      pictureUrl:
+        "https://api.dicebear.com/7.x/initials/svg?seed=" +
+        encodeURIComponent(name),
     });
+  }
+
+  async getChannelDetails(channelId: string) {
+    return channelRepository.findDetailedById(channelId);
   }
 }
 

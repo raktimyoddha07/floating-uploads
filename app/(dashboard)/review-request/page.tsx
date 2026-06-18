@@ -1,42 +1,55 @@
-"use client";
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Eye } from "lucide-react";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/auth";
+import { redirect } from "next/navigation";
+import { uploadRequestService } from "@/modules/upload-requests/services/upload-request.service";
+import { format } from "date-fns";
+import { UploadRequestStatus, UploadType } from "@prisma/client";
 
-export default function ReviewRequestPage() {
-  // Mock requests data
-  const pendingRequests = [
-    {
-      id: "req_1",
-      uploaderName: "John Doe",
-      title: "Nature Documentary in 4K",
-      type: "LONG_VIDEO",
-      date: "16 Jun 2026",
-      status: "PENDING_REVIEW",
-    },
-    {
-      id: "req_2",
-      uploaderName: "Alex Smith",
-      title: "Gaming Highlight #4",
-      type: "SHORTS",
-      date: "15 Jun 2026",
-      status: "PENDING_REVIEW",
-    }
-  ];
+function getTypeLabel(type: UploadType) {
+  return type === "SHORTS" ? "Shorts" : "Long Video";
+}
 
-  const reviewedRequests = [
-    {
-      id: "req_3",
-      uploaderName: "John Doe",
-      title: "Forest Walk 2026",
-      type: "LONG_VIDEO",
-      date: "14 Jun 2026",
-      status: "UPLOADED",
-    }
-  ];
+function getStatusBadgeVariant(
+  status: UploadRequestStatus,
+): "default" | "secondary" | "outline" {
+  switch (status) {
+    case "PENDING_REVIEW":
+      return "secondary";
+    case "APPROVED":
+    case "UPLOADED":
+      return "default";
+    default:
+      return "outline";
+  }
+}
+
+export default async function ReviewRequestPage() {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user?.id) {
+    redirect("/login");
+  }
+
+  const requests = await uploadRequestService.getRequestsForOwner(
+    session.user.id,
+  );
+  const pendingRequests = requests.filter(
+    (request) => request.status === "PENDING_REVIEW",
+  );
+  const reviewedRequests = requests.filter(
+    (request) => request.status !== "PENDING_REVIEW",
+  );
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -49,30 +62,52 @@ export default function ReviewRequestPage() {
 
       <div className="space-y-4">
         <h2 className="text-xl font-semibold flex items-center gap-2">
-          Pending Review <Badge variant="secondary">{pendingRequests.length}</Badge>
+          Pending Review{" "}
+          <Badge variant="secondary">{pendingRequests.length}</Badge>
         </h2>
-        
+
         {pendingRequests.length === 0 ? (
           <div className="p-8 text-center text-muted-foreground bg-muted/20 border border-dashed rounded-xl">
             No upload requests pending review.
           </div>
         ) : (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {pendingRequests.map(req => (
-              <Card key={req.id} className="glass-card hover:border-primary/30 transition-colors">
+            {pendingRequests.map((request) => (
+              <Card
+                key={request.id}
+                className="glass-card hover:border-primary/30 transition-colors"
+              >
                 <CardHeader className="pb-3">
                   <div className="flex justify-between items-start">
-                    <Badge variant={req.type === "SHORTS" ? "outline" : "default"} className="mb-2">
-                      {req.type === "SHORTS" ? "Shorts" : "Long Video"}
+                    <Badge
+                      variant={
+                        request.type === "SHORTS" ? "outline" : "default"
+                      }
+                      className="mb-2"
+                    >
+                      {getTypeLabel(request.type)}
                     </Badge>
                   </div>
-                  <CardTitle className="text-lg line-clamp-1">{req.title}</CardTitle>
-                  <CardDescription>By {req.uploaderName}</CardDescription>
+                  <CardTitle className="text-lg line-clamp-1">
+                    {request.title || "Untitled upload"}
+                  </CardTitle>
+                  <CardDescription>
+                    By{" "}
+                    {request.uploader.name ||
+                      request.uploader.email ||
+                      "Unknown uploader"}
+                  </CardDescription>
                 </CardHeader>
-                <CardContent className="pt-0 flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">{req.date}</span>
-                  <Link href={`/review-request/${req.id}`}>
-                    <Button size="sm" variant="secondary" className="rounded-full shadow-sm">
+                <CardContent className="pt-0 flex justify-between items-center gap-4">
+                  <span className="text-sm text-muted-foreground">
+                    {format(request.createdAt, "dd MMM yyyy")}
+                  </span>
+                  <Link href={`/review-request/${request.id}`}>
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      className="rounded-full shadow-sm"
+                    >
                       <Eye className="mr-2 h-4 w-4" /> Review
                     </Button>
                   </Link>
@@ -85,29 +120,49 @@ export default function ReviewRequestPage() {
 
       <div className="space-y-4 pt-6 border-t">
         <h2 className="text-xl font-semibold text-muted-foreground flex items-center gap-2">
-          Reviewed Requests <Badge variant="outline">{reviewedRequests.length}</Badge>
+          Reviewed Requests{" "}
+          <Badge variant="outline">{reviewedRequests.length}</Badge>
         </h2>
-        
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 opacity-70 hover:opacity-100 transition-opacity">
-          {reviewedRequests.map(req => (
-            <Card key={req.id} className="bg-card/30 backdrop-blur-sm border-white/5 shadow-sm">
-              <CardHeader className="pb-3">
-                <div className="flex justify-between items-start">
-                  <Badge variant="outline" className="mb-2 bg-background/50">
-                    {req.status}
-                  </Badge>
-                </div>
-                <CardTitle className="text-lg line-clamp-1 text-muted-foreground">{req.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="pt-0 flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">{req.date}</span>
-                <Link href={`/review-request/${req.id}`}>
-                  <Button size="sm" variant="ghost">View Details</Button>
-                </Link>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+
+        {reviewedRequests.length === 0 ? (
+          <div className="p-8 text-center text-muted-foreground bg-muted/10 border border-dashed rounded-xl">
+            No reviewed requests yet.
+          </div>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 opacity-70 hover:opacity-100 transition-opacity">
+            {reviewedRequests.map((request) => (
+              <Card
+                key={request.id}
+                className="bg-card/30 backdrop-blur-sm border-white/5 shadow-sm"
+              >
+                <CardHeader className="pb-3">
+                  <div className="flex justify-between items-start">
+                    <Badge
+                      variant={getStatusBadgeVariant(request.status)}
+                      className="mb-2 bg-background/50"
+                    >
+                      {request.status}
+                    </Badge>
+                  </div>
+                  <CardTitle className="text-lg line-clamp-1 text-muted-foreground">
+                    {request.title || "Untitled upload"}
+                  </CardTitle>
+                  <CardDescription>{request.channel.name}</CardDescription>
+                </CardHeader>
+                <CardContent className="pt-0 flex justify-between items-center gap-4">
+                  <span className="text-sm text-muted-foreground">
+                    {format(request.createdAt, "dd MMM yyyy")}
+                  </span>
+                  <Link href={`/review-request/${request.id}`}>
+                    <Button size="sm" variant="ghost">
+                      View Details
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

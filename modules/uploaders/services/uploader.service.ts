@@ -3,9 +3,16 @@ import { PermissionType } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
 export class UploaderService {
-  async assignUploader(ownerId: string, uploaderUsername: string, channelId: string, permission: PermissionType) {
+  async assignUploader(
+    ownerId: string,
+    uploaderUsername: string,
+    channelId: string,
+    permission: PermissionType,
+  ) {
     // 1. Find user by username
-    const user = await prisma.user.findUnique({ where: { username: uploaderUsername } });
+    const user = await prisma.user.findUnique({
+      where: { username: uploaderUsername },
+    });
     if (!user) throw new Error("User not found");
 
     // 2. Create assignment
@@ -21,8 +28,15 @@ export class UploaderService {
     return uploaderAssignmentRepository.findByChannelId(channelId);
   }
 
+  async getOwnerAssignments(ownerId: string) {
+    return uploaderAssignmentRepository.findByOwnerId(ownerId);
+  }
+
   async updatePermission(assignmentId: string, permission: PermissionType) {
-    return uploaderAssignmentRepository.updatePermission(assignmentId, permission);
+    return uploaderAssignmentRepository.updatePermission(
+      assignmentId,
+      permission,
+    );
   }
 
   async revokeAccess(assignmentId: string) {

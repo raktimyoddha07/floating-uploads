@@ -1,0 +1,422 @@
+{
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\app\\(dashboard)\\appoint-uploader\\page.tsx": {
+    "mtime": 1781632750.226338,
+    "ast_hash": "2a006f56087e9e1045157f63a12638c8",
+    "semantic_hash": "2a006f56087e9e1045157f63a12638c8"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\app\\(dashboard)\\dashboard\\page.tsx": {
+    "mtime": 1781633236.8796892,
+    "ast_hash": "1cb240e49663c19cd3aee6f66b38a83f",
+    "semantic_hash": "1cb240e49663c19cd3aee6f66b38a83f"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\app\\(dashboard)\\layout.tsx": {
+    "mtime": 1781635133.9019551,
+    "ast_hash": "0e653b895a561e128359a9b50f18fc6e",
+    "semantic_hash": "0e653b895a561e128359a9b50f18fc6e"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\app\\(dashboard)\\review-request\\[id]\\page.tsx": {
+    "mtime": 1781632839.544238,
+    "ast_hash": "da31f542301e84a3c1ed67a5149b5dda",
+    "semantic_hash": "da31f542301e84a3c1ed67a5149b5dda"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\app\\(dashboard)\\review-request\\page.tsx": {
+    "mtime": 1781632837.4973104,
+    "ast_hash": "7b1dcf9304d41d85f7b0594a09294e26",
+    "semantic_hash": "7b1dcf9304d41d85f7b0594a09294e26"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\app\\(dashboard)\\settings\\page.tsx": {
+    "mtime": 1781634274.6876593,
+    "ast_hash": "6ac0ef32210eb59eaaa2d1ebcd97e24d",
+    "semantic_hash": "6ac0ef32210eb59eaaa2d1ebcd97e24d"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\app\\(dashboard)\\uploader\\page.tsx": {
+    "mtime": 1781635166.4176817,
+    "ast_hash": "134c17dfe9736c2e81a77478d05eaf11",
+    "semantic_hash": "134c17dfe9736c2e81a77478d05eaf11"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\app\\(public)\\layout.tsx": {
+    "mtime": 1781634959.4737294,
+    "ast_hash": "de6698843944bd47847e0bf2035b952a",
+    "semantic_hash": "de6698843944bd47847e0bf2035b952a"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\app\\(public)\\login\\page.tsx": {
+    "mtime": 1781635110.3515544,
+    "ast_hash": "f77818f1bbe60901c724b9f8b81673b2",
+    "semantic_hash": "f77818f1bbe60901c724b9f8b81673b2"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\app\\(public)\\page.tsx": {
+    "mtime": 1781630471.339085,
+    "ast_hash": "e20b1d366bd688c03d2e0995a6da4ebb",
+    "semantic_hash": "e20b1d366bd688c03d2e0995a6da4ebb"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\app\\api\\auth\\[...nextauth]\\route.ts": {
+    "mtime": 1781630443.831634,
+    "ast_hash": "e22f6c46577fb1be40f27dfbd8426c7f",
+    "semantic_hash": "e22f6c46577fb1be40f27dfbd8426c7f"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\app\\api\\inngest\\route.ts": {
+    "mtime": 1781634390.2669692,
+    "ast_hash": "e018c0f9e427cea07c560f2dbcd0e10f",
+    "semantic_hash": "e018c0f9e427cea07c560f2dbcd0e10f"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\app\\api\\uploads\\route.ts": {
+    "mtime": 1781635179.2936256,
+    "ast_hash": "a2fa9d5db04e77be80358eb06fb50f47",
+    "semantic_hash": "a2fa9d5db04e77be80358eb06fb50f47"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\app\\api\\youtube\\auth\\route.ts": {
+    "mtime": 1781685114.487943,
+    "ast_hash": "7cd6b4b513edb80f1c0da0b76a079a18",
+    "semantic_hash": "7cd6b4b513edb80f1c0da0b76a079a18"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\app\\api\\youtube\\callback\\route.ts": {
+    "mtime": 1781685116.0105777,
+    "ast_hash": "c803496d66c22d2fe907089de0caf0c1",
+    "semantic_hash": "c803496d66c22d2fe907089de0caf0c1"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\app\\error.tsx": {
+    "mtime": 1781633528.3532043,
+    "ast_hash": "a8709d60b8b7aa9a4d56765de273ce3f",
+    "semantic_hash": "a8709d60b8b7aa9a4d56765de273ce3f"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\app\\loading.tsx": {
+    "mtime": 1781633715.4326267,
+    "ast_hash": "9a7bbfdd4507c7d070dbe646e1b1bfbf",
+    "semantic_hash": "9a7bbfdd4507c7d070dbe646e1b1bfbf"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\app\\not-found.tsx": {
+    "mtime": 1781633717.4610567,
+    "ast_hash": "043078544efc99b9413994ce66982014",
+    "semantic_hash": "043078544efc99b9413994ce66982014"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\auth.ts": {
+    "mtime": 1781632174.2839415,
+    "ast_hash": "b3e4e7c1efd4ff753ef24d10312515f9",
+    "semantic_hash": "b3e4e7c1efd4ff753ef24d10312515f9"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components.json": {
+    "mtime": 1781632442.7181237,
+    "ast_hash": "437480fc3ec7f3b241b28881d80301f6",
+    "semantic_hash": "437480fc3ec7f3b241b28881d80301f6"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\channel\\ConnectChannelCard.tsx": {
+    "mtime": 1781634554.7438633,
+    "ast_hash": "dcb1cedfabadbdd0186dfa7ce16629c9",
+    "semantic_hash": "dcb1cedfabadbdd0186dfa7ce16629c9"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\layout\\Navbar.tsx": {
+    "mtime": 1781635130.3737082,
+    "ast_hash": "604a0cfd96fe0e2eab5c0d682d212822",
+    "semantic_hash": "604a0cfd96fe0e2eab5c0d682d212822"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\layout\\NotificationPopover.tsx": {
+    "mtime": 1781634249.2274084,
+    "ast_hash": "9a0ae39851e763d0d0d095d5054378d8",
+    "semantic_hash": "9a0ae39851e763d0d0d095d5054378d8"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\layout\\Sidebar.tsx": {
+    "mtime": 1781632191.2856467,
+    "ast_hash": "5b4c22a30439eacc2fc2e8e15dc7abf3",
+    "semantic_hash": "5b4c22a30439eacc2fc2e8e15dc7abf3"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\ui\\avatar.tsx": {
+    "mtime": 1781632581.4313712,
+    "ast_hash": "b48244919ef33575fecf5509063b7310",
+    "semantic_hash": "b48244919ef33575fecf5509063b7310"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\ui\\badge.tsx": {
+    "mtime": 1781632581.2385495,
+    "ast_hash": "eb30b47bf883c02ab07c369335946b1b",
+    "semantic_hash": "eb30b47bf883c02ab07c369335946b1b"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\ui\\button.tsx": {
+    "mtime": 1781632383.9112127,
+    "ast_hash": "73f267d3547ea83719e9757749b1fb17",
+    "semantic_hash": "73f267d3547ea83719e9757749b1fb17"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\ui\\calendar.tsx": {
+    "mtime": 1781632582.1471171,
+    "ast_hash": "33088be4985c529a0cc62a540c29094b",
+    "semantic_hash": "33088be4985c529a0cc62a540c29094b"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\ui\\card.tsx": {
+    "mtime": 1781632581.5129135,
+    "ast_hash": "d4d94d4781c7a5e781d5bb7360a4acfe",
+    "semantic_hash": "d4d94d4781c7a5e781d5bb7360a4acfe"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\ui\\dialog.tsx": {
+    "mtime": 1781632582.021047,
+    "ast_hash": "b9f5f34152c24076aac5a33bdbf3eb15",
+    "semantic_hash": "b9f5f34152c24076aac5a33bdbf3eb15"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\ui\\dropdown-menu.tsx": {
+    "mtime": 1781632581.3489952,
+    "ast_hash": "3e5c8279144b8aaf66c39d899a9383b6",
+    "semantic_hash": "3e5c8279144b8aaf66c39d899a9383b6"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\ui\\input.tsx": {
+    "mtime": 1781632580.8561943,
+    "ast_hash": "22d12e002a398ef83347351879ddd97b",
+    "semantic_hash": "22d12e002a398ef83347351879ddd97b"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\ui\\label.tsx": {
+    "mtime": 1781632581.5881784,
+    "ast_hash": "e7e0c4ad98f3485ecd3c0ca516d0a8bf",
+    "semantic_hash": "e7e0c4ad98f3485ecd3c0ca516d0a8bf"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\ui\\popover.tsx": {
+    "mtime": 1781632581.6671114,
+    "ast_hash": "985fb2edffe602bac72ab9a8ff33c18d",
+    "semantic_hash": "985fb2edffe602bac72ab9a8ff33c18d"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\ui\\progress.tsx": {
+    "mtime": 1781632581.7528727,
+    "ast_hash": "ba517ee98ebc768ce9161f2e972c75a3",
+    "semantic_hash": "ba517ee98ebc768ce9161f2e972c75a3"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\ui\\scroll-area.tsx": {
+    "mtime": 1781632581.9247897,
+    "ast_hash": "5a04c269a377e8176ebbf27ee8ac35bf",
+    "semantic_hash": "5a04c269a377e8176ebbf27ee8ac35bf"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\ui\\select.tsx": {
+    "mtime": 1781632581.072814,
+    "ast_hash": "9b44e61297184dae9df7f5247c3b92cd",
+    "semantic_hash": "9b44e61297184dae9df7f5247c3b92cd"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\ui\\sonner.tsx": {
+    "mtime": 1781632581.8501914,
+    "ast_hash": "f46214bc2a6a5153a6e04fad523d5587",
+    "semantic_hash": "f46214bc2a6a5153a6e04fad523d5587"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\ui\\table.tsx": {
+    "mtime": 1781632581.1582365,
+    "ast_hash": "0c7330d3d72775201c9da97387f00d7b",
+    "semantic_hash": "0c7330d3d72775201c9da97387f00d7b"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\ui\\textarea.tsx": {
+    "mtime": 1781632580.944891,
+    "ast_hash": "f45ed9d3a248be433c458e6b9d8cdcc5",
+    "semantic_hash": "f45ed9d3a248be433c458e6b9d8cdcc5"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\components\\uploader\\UploaderTable.tsx": {
+    "mtime": 1781632748.2048407,
+    "ast_hash": "b26ff618afcca5ad163fef9996633427",
+    "semantic_hash": "b26ff618afcca5ad163fef9996633427"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\env.ts": {
+    "mtime": 1781624834.3345103,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\eslint.config.mjs": {
+    "mtime": 1781621635.0862718,
+    "ast_hash": "dfa1f5f6a7037bf39dc510f30b180002",
+    "semantic_hash": "dfa1f5f6a7037bf39dc510f30b180002"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\inngest\\client.ts": {
+    "mtime": 1781634386.542428,
+    "ast_hash": "19f9ae809eb88ce5173da2eae3553e73",
+    "semantic_hash": "19f9ae809eb88ce5173da2eae3553e73"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\inngest\\functions.ts": {
+    "mtime": 1781634388.5529344,
+    "ast_hash": "c73c6af3e9f2d6d6ebe92df31d79c590",
+    "semantic_hash": "c73c6af3e9f2d6d6ebe92df31d79c590"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\instrumentation.ts": {
+    "mtime": 1781624850.7978048,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\lib\\prisma.ts": {
+    "mtime": 1781632700.8231328,
+    "ast_hash": "70a1a194848a8ed5bdf360eae04c0541",
+    "semantic_hash": "70a1a194848a8ed5bdf360eae04c0541"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\lib\\utils.ts": {
+    "mtime": 1781632384.0032096,
+    "ast_hash": "5a6fd53fdcf2be529e9cc0b718fde352",
+    "semantic_hash": "5a6fd53fdcf2be529e9cc0b718fde352"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\modules\\auth\\index.ts": {
+    "mtime": 1781630384.736874,
+    "ast_hash": "72986ade5fdcb831a0a0ce262edff03e",
+    "semantic_hash": "72986ade5fdcb831a0a0ce262edff03e"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\modules\\channels\\index.ts": {
+    "mtime": 1781630388.7608955,
+    "ast_hash": "e45875424b813dbeb3967af90a673957",
+    "semantic_hash": "e45875424b813dbeb3967af90a673957"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\modules\\channels\\repositories\\channel.repository.ts": {
+    "mtime": 1781632702.8417745,
+    "ast_hash": "c43ce25ff247fa37047fe2a01b3d5381",
+    "semantic_hash": "c43ce25ff247fa37047fe2a01b3d5381"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\modules\\channels\\services\\channel.service.ts": {
+    "mtime": 1781632704.8639545,
+    "ast_hash": "857c6f9be1b8b10c325f17a9a52715f8",
+    "semantic_hash": "857c6f9be1b8b10c325f17a9a52715f8"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\modules\\channels\\services\\youtube.service.ts": {
+    "mtime": 1781684621.965286,
+    "ast_hash": "edc166fb980a6be23976eacd7348cea9",
+    "semantic_hash": "edc166fb980a6be23976eacd7348cea9"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\modules\\media\\index.ts": {
+    "mtime": 1781630394.795169,
+    "ast_hash": "c88c2073275d3517705e1d0dc26b829b",
+    "semantic_hash": "c88c2073275d3517705e1d0dc26b829b"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\modules\\media\\services\\video-processing.service.ts": {
+    "mtime": 1781684816.1169002,
+    "ast_hash": "d1337648f82427dee9b5326f2a45e2d4",
+    "semantic_hash": "d1337648f82427dee9b5326f2a45e2d4"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\modules\\storage\\index.ts": {
+    "mtime": 1781630374.1989908,
+    "ast_hash": "4c7668eedaeeeca1d646a4701a723485",
+    "semantic_hash": "4c7668eedaeeeca1d646a4701a723485"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\modules\\storage\\providers\\local-provider.ts": {
+    "mtime": 1781630360.7035286,
+    "ast_hash": "2022d476985c2f1c63315d0386ec8cb3",
+    "semantic_hash": "2022d476985c2f1c63315d0386ec8cb3"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\modules\\storage\\services\\storage.service.ts": {
+    "mtime": 1781630362.721806,
+    "ast_hash": "ac62c476ad4242e27e36b7b63d695120",
+    "semantic_hash": "ac62c476ad4242e27e36b7b63d695120"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\modules\\storage\\types.ts": {
+    "mtime": 1781630358.686938,
+    "ast_hash": "011d2f174848f22c43bfbe85178d0d8d",
+    "semantic_hash": "011d2f174848f22c43bfbe85178d0d8d"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\modules\\upload-requests\\index.ts": {
+    "mtime": 1781630392.7832851,
+    "ast_hash": "31e45abb2444f8e8278ccef80cc3cf88",
+    "semantic_hash": "31e45abb2444f8e8278ccef80cc3cf88"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\modules\\upload-requests\\repositories\\upload-request.repository.ts": {
+    "mtime": 1781632789.9416232,
+    "ast_hash": "108c4811aa8495b650c2ef1c6fa46ce9",
+    "semantic_hash": "108c4811aa8495b650c2ef1c6fa46ce9"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\modules\\upload-requests\\services\\upload-request.service.ts": {
+    "mtime": 1781632791.9562278,
+    "ast_hash": "ffea1ed3ba42e70f84647e3950dba935",
+    "semantic_hash": "ffea1ed3ba42e70f84647e3950dba935"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\modules\\uploaders\\index.ts": {
+    "mtime": 1781630390.7758813,
+    "ast_hash": "f10b97f9ed3b2beb67aaf52e78930d13",
+    "semantic_hash": "f10b97f9ed3b2beb67aaf52e78930d13"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\modules\\uploaders\\repositories\\uploader-assignment.repository.ts": {
+    "mtime": 1781632715.650545,
+    "ast_hash": "93595180444bb91f903e94f61a203df9",
+    "semantic_hash": "93595180444bb91f903e94f61a203df9"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\modules\\uploaders\\services\\uploader.service.ts": {
+    "mtime": 1781632717.6612666,
+    "ast_hash": "5f8c48d26394b1c337f56fdbee4c9576",
+    "semantic_hash": "5f8c48d26394b1c337f56fdbee4c9576"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\modules\\users\\index.ts": {
+    "mtime": 1781630386.7454028,
+    "ast_hash": "65dd08b74312535eb5ab20bea8c99474",
+    "semantic_hash": "65dd08b74312535eb5ab20bea8c99474"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\next.config.ts": {
+    "mtime": 1781621635.175257,
+    "ast_hash": "9b77af189a21a7a64e4bd7a426f64176",
+    "semantic_hash": "9b77af189a21a7a64e4bd7a426f64176"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\package.json": {
+    "mtime": 1781684515.9787247,
+    "ast_hash": "56755e150da30e1ebd52ddfc8b18c462",
+    "semantic_hash": "56755e150da30e1ebd52ddfc8b18c462"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\pages\\api\\upload\\[[...file]].ts": {
+    "mtime": 1781684762.0709414,
+    "ast_hash": "d3a7ee661abd6f171fa44176862551fb",
+    "semantic_hash": "d3a7ee661abd6f171fa44176862551fb"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\postcss.config.mjs": {
+    "mtime": 1781621635.111117,
+    "ast_hash": "239f3ebf717465dc636818a1a619398d",
+    "semantic_hash": "239f3ebf717465dc636818a1a619398d"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\prisma\\migrations\\20260617082024_init_auth\\migration.sql": {
+    "mtime": 1781684424.614081,
+    "ast_hash": "adaabcb973f70e87e9d4fee76b0eb338",
+    "semantic_hash": "adaabcb973f70e87e9d4fee76b0eb338"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\prisma\\migrations\\20260617082321_add_channel_oauth\\migration.sql": {
+    "mtime": 1781684601.2052724,
+    "ast_hash": "7a216ab9d521aacd2801985722fbed10",
+    "semantic_hash": "7a216ab9d521aacd2801985722fbed10"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\proxy.ts": {
+    "mtime": 1781634577.7831683,
+    "ast_hash": "5acb2485c0d995523f42ab602a3cdb18",
+    "semantic_hash": "5acb2485c0d995523f42ab602a3cdb18"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\scripts\\merge-prisma.ts": {
+    "mtime": 1781628672.433251,
+    "ast_hash": "8a4a70952d0106f34f89f7904fba877a",
+    "semantic_hash": "8a4a70952d0106f34f89f7904fba877a"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\tsconfig.json": {
+    "mtime": 1781621656.4542553,
+    "ast_hash": "02fc19ad21338c2ab820a70136310db4",
+    "semantic_hash": "02fc19ad21338c2ab820a70136310db4"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\AGENTS.md": {
+    "mtime": 1781621741.641701,
+    "ast_hash": "9e09241799026ac05be315a2f0b50055",
+    "semantic_hash": "9e09241799026ac05be315a2f0b50055"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\CLAUDE.md": {
+    "mtime": 1781621741.641701,
+    "ast_hash": "5c27369b226fcf2be8a6cfe52224e767",
+    "semantic_hash": "5c27369b226fcf2be8a6cfe52224e767"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\PROJECT_ARCHITECTURE.md": {
+    "mtime": 1781626490.3925755,
+    "ast_hash": "a9b430ed59b11698ef9bc782f524f214",
+    "semantic_hash": "a9b430ed59b11698ef9bc782f524f214"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\README.md": {
+    "mtime": 1781621635.0543878,
+    "ast_hash": "f15aaa42d5d299d091b1171097ea56ad",
+    "semantic_hash": "f15aaa42d5d299d091b1171097ea56ad"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\public\\file.svg": {
+    "mtime": 1781621635.1210861,
+    "ast_hash": "d09f95206c3fa0bb9bd9fefabfd0ea71",
+    "semantic_hash": "d09f95206c3fa0bb9bd9fefabfd0ea71"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\public\\globe.svg": {
+    "mtime": 1781621635.132085,
+    "ast_hash": "2aaafa6a49b6563925fe440891e32717",
+    "semantic_hash": "2aaafa6a49b6563925fe440891e32717"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\public\\next.svg": {
+    "mtime": 1781621635.1410887,
+    "ast_hash": "8e061864f388b47f33a1c3780831193e",
+    "semantic_hash": "8e061864f388b47f33a1c3780831193e"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\public\\vercel.svg": {
+    "mtime": 1781621635.150089,
+    "ast_hash": "c0af2f507b369b085b35ef4bbe3bcf1e",
+    "semantic_hash": "c0af2f507b369b085b35ef4bbe3bcf1e"
+  },
+  "C:\\Users\\rakti\\Desktop\\code\\SAAS\\floating-uploads\\public\\window.svg": {
+    "mtime": 1781621635.1570897,
+    "ast_hash": "a2760511c65806022ad20adf74370ff3",
+    "semantic_hash": "a2760511c65806022ad20adf74370ff3"
+  }
+}

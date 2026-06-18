@@ -15,4 +15,6 @@ model User {
   activities          Activity[]
   notifications       Notification[]
   payments            Payment[]
+  accounts            Account[]
+  sessions            Session[]
 }

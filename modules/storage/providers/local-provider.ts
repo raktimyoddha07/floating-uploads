@@ -1,49 +1,85 @@
-import fs from 'fs';
-import path from 'path';
-import { IStorageProvider, UploadOptions } from '../types';
+import fs from "fs";
+import path from "path";
+import { IStorageProvider, StorageObject, UploadOptions } from "../types";
 
 export class LocalStorageProvider implements IStorageProvider {
   private uploadsDir: string;
   private baseUrl: string;
 
-  constructor() {
-    this.uploadsDir = path.join(process.cwd(), 'uploads');
-    // In local dev, we serve the uploads directory statically or via an API route
-    this.baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-    
-    // Ensure the uploads directory exists
+  constructor(uploadsDir?: string, baseUrl?: string) {
+    this.uploadsDir = uploadsDir || path.join(process.cwd(), "uploads");
+    this.baseUrl = (
+      baseUrl ||
+      process.env.NEXT_PUBLIC_APP_URL ||
+      "http://localhost:3000"
+    ).replace(/\/$/, "");
+
     if (!fs.existsSync(this.uploadsDir)) {
       fs.mkdirSync(this.uploadsDir, { recursive: true });
     }
   }
 
-  async uploadFile(file: Buffer, options: UploadOptions): Promise<string> {
-    // Generate a unique filename to avoid collisions
-    const timestamp = Date.now();
-    const uniqueFileName = `${timestamp}-${options.fileName.replace(/\s+/g, '_')}`;
-    const filePath = path.join(this.uploadsDir, uniqueFileName);
-
-    await fs.promises.writeFile(filePath, file);
-
-    // Return the relative URL that can be used to access the file
-    // Assuming an API route or static serving maps /uploads to the uploads folder
-    return `/uploads/${uniqueFileName}`;
+  private sanitizeSegment(value: string) {
+    return value
+      .replace(/[^a-zA-Z0-9._-]/g, "_")
+      .replace(/_+/g, "_")
+      .replace(/^_+|_+$/g, "");
   }
 
-  async deleteFile(fileUrl: string): Promise<void> {
-    // Extract filename from the URL
-    const fileName = fileUrl.split('/').pop();
-    if (!fileName) return;
+  private resolveStoragePath(keyOrUrl: string) {
+    const normalized = keyOrUrl.startsWith("/uploads/")
+      ? keyOrUrl.replace(/^\/uploads\//, "")
+      : keyOrUrl;
 
-    const filePath = path.join(this.uploadsDir, fileName);
-    
+    const safeSegments = normalized
+      .split("/")
+      .filter(Boolean)
+      .map((segment) => this.sanitizeSegment(segment));
+
+    return path.join(this.uploadsDir, ...safeSegments);
+  }
+
+  async uploadFile(
+    file: Buffer,
+    options: UploadOptions,
+  ): Promise<StorageObject> {
+    const timestamp = Date.now();
+    const sanitizedFileName =
+      this.sanitizeSegment(options.fileName) || "upload.bin";
+    const folder = options.folder
+      ? options.folder
+          .split("/")
+          .filter(Boolean)
+          .map((segment) => this.sanitizeSegment(segment))
+          .join("/")
+      : "";
+
+    const key = folder
+      ? `${folder}/${timestamp}-${sanitizedFileName}`
+      : `${timestamp}-${sanitizedFileName}`;
+
+    const filePath = this.resolveStoragePath(key);
+    await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
+    await fs.promises.writeFile(filePath, file);
+
+    return {
+      key,
+      url: `/uploads/${key}`,
+    };
+  }
+
+  async deleteFile(keyOrUrl: string): Promise<void> {
+    const filePath = this.resolveStoragePath(keyOrUrl);
+
     if (fs.existsSync(filePath)) {
       await fs.promises.unlink(filePath);
     }
   }
 
-  // Not strictly needed for local, but adding for interface compatibility
-  async generateSignedUrl(fileUrl: string): Promise<string> {
-    return `${this.baseUrl}${fileUrl}`;
+  async generateSignedUrl(keyOrUrl: string): Promise<string> {
+    const relativeUrl = keyOrUrl.startsWith("/uploads/")
+      ? keyOrUrl
+      : `/uploads/${keyOrUrl}`;
+    return `${this.baseUrl}${relativeUrl}`;
   }
 }

@@ -1,31 +1,28 @@
-import { IStorageProvider, UploadOptions } from '../types';
-import { LocalStorageProvider } from '../providers/local-provider';
+import { createStorageProvider } from "../providers/provider-factory";
+import { IStorageProvider, StorageObject, UploadOptions } from "../types";
 
-// This acts as a factory or dependency injection point
-// Later, you can conditionally use an R2StorageProvider based on env variables
 export class StorageService {
   private provider: IStorageProvider;
 
-  constructor() {
-    // Determine which provider to use. Hardcoding local for now as per requirements.
-    this.provider = new LocalStorageProvider();
+  constructor(provider: IStorageProvider = createStorageProvider()) {
+    this.provider = provider;
   }
 
-  async upload(file: Buffer, options: UploadOptions): Promise<string> {
+  async upload(file: Buffer, options: UploadOptions): Promise<StorageObject> {
     return this.provider.uploadFile(file, options);
   }
 
-  async delete(fileUrl: string): Promise<void> {
-    return this.provider.deleteFile(fileUrl);
+  async delete(keyOrUrl: string): Promise<void> {
+    return this.provider.deleteFile(keyOrUrl);
   }
 
-  async getUrl(fileUrl: string): Promise<string> {
+  async getUrl(keyOrUrl: string): Promise<string> {
     if (this.provider.generateSignedUrl) {
-      return this.provider.generateSignedUrl(fileUrl);
+      return this.provider.generateSignedUrl(keyOrUrl);
     }
-    return fileUrl;
+
+    return keyOrUrl;
   }
 }
 
-// Export a singleton instance for ease of use
 export const storageService = new StorageService();
