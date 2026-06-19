@@ -5,6 +5,7 @@ import Sidebar from "@/components/layout/Sidebar";
 import "@/app/(public)/globals.css";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = Geist({ subsets: ["latin"], variable: "--font-sans" });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" });
@@ -18,17 +19,19 @@ export default async function DashboardLayout({ children }: { children: ReactNod
   const session = await getServerSession(authOptions);
 
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans bg-background text-foreground antialiased min-h-screen`} suppressHydrationWarning>
-        <div className="flex h-screen overflow-hidden">
-          <Sidebar />
-          <div className="flex flex-1 flex-col overflow-hidden">
-            <Navbar session={session} />
-            <main className="flex-1 overflow-y-auto p-6 md:p-8">
-              {children}
-            </main>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <div className="flex h-screen overflow-hidden">
+            <Sidebar />
+            <div className="flex flex-1 flex-col overflow-hidden">
+              <Navbar session={session} />
+              <main className="flex-1 overflow-y-auto p-4 md:p-8">
+                {children}
+              </main>
+            </div>
           </div>
-        </div>
+        </ThemeProvider>
       </body>
     </html>
   );

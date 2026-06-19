@@ -12,6 +12,7 @@ interface DisconnectChannelButtonProps {
   className?: string;
   redirectTo?: string;
   variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+  showText?: boolean;
 }
 
 export function DisconnectChannelButton({
@@ -20,6 +21,7 @@ export function DisconnectChannelButton({
   className,
   redirectTo,
   variant = "destructive",
+  showText = true,
 }: DisconnectChannelButtonProps) {
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
@@ -57,22 +59,18 @@ export function DisconnectChannelButton({
   return (
     <Button
       variant={variant}
-      size="sm"
+      size={showText ? "sm" : "icon"}
       className={className}
       disabled={isDeleting}
       onClick={handleDisconnect}
+      title={`Disconnect ${channelName}`}
     >
       {isDeleting ? (
-        <>
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          Disconnecting...
-        </>
+        <Loader2 className={showText ? "mr-2 h-4 w-4 animate-spin" : "h-4 w-4 animate-spin"} />
       ) : (
-        <>
-          <Trash2 className="mr-2 h-4 w-4" />
-          Disconnect
-        </>
+        <Trash2 className={showText ? "mr-2 h-4 w-4" : "h-4 w-4"} />
       )}
+      {showText && (isDeleting ? "Disconnecting..." : "Disconnect")}
     </Button>
   );
 }

@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { google } from "googleapis";
 import * as fs from "fs";
 import * as path from "path";
+import { storageService } from "@/modules/storage";
 
 export const processUploadJob = inngest.createFunction(
   { id: "process-upload-job", event: "upload/process" },
@@ -109,6 +110,23 @@ export const processUploadJob = inngest.createFunction(
 
     // Step 4: Mark as UPLOADED and store YouTube video ID
     await step.run("mark-uploaded", async () => {
+      // Clean up files from local storage as they are no longer needed
+      if (uploadRequest.videoUrl) {
+        try {
+          await storageService.delete(uploadRequest.videoUrl);
+        } catch (e) {
+          console.error("Failed to delete video file:", e);
+        }
+      }
+
+      if (uploadRequest.thumbnailUrl && !uploadRequest.thumbnailUrl.startsWith("http")) {
+        try {
+          await storageService.delete(uploadRequest.thumbnailUrl);
+        } catch (e) {
+          console.error("Failed to delete thumbnail file:", e);
+        }
+      }
+
       await prisma.uploadRequest.update({
         where: { id: requestId },
         data: {

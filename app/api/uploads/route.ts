@@ -38,7 +38,9 @@ export async function POST(req: NextRequest) {
       folder: `channels/${channelId}`,
     });
 
-    const uploadRequest = await uploadRequestService.createDraft(
+    const status = (formData.get("status") as string) || "DRAFT";
+
+    let uploadRequest = await uploadRequestService.createDraft(
       userId,
       channelId,
       type,
@@ -49,6 +51,10 @@ export async function POST(req: NextRequest) {
         videoUrl: storedFile.url,
       },
     );
+
+    if (status === "PENDING_REVIEW") {
+      uploadRequest = await uploadRequestService.submitForReview(uploadRequest.id);
+    }
 
     // Inngest Background Job will be triggered when the owner approves the request
 

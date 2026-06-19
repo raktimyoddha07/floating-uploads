@@ -72,75 +72,95 @@ export default async function ReviewRequestDetailPage({
         <ReviewActionButtons requestId={request.id} canReview={canReview} />
       </div>
 
-      {request.note ? (
-        <div className="bg-blue-500/10 border border-blue-500/20 text-blue-700 dark:text-blue-300 rounded-lg p-4 text-sm">
-          <span className="font-semibold">Uploader Note:</span> {request.note}
+      {request.status !== "PENDING_REVIEW" ? (
+        <div className="rounded-lg border p-4 text-sm bg-muted/40 flex items-center justify-between">
+          <span className="text-muted-foreground">
+            This request has been processed. Status: <strong className="text-foreground">{getStatusLabel(request.status)}</strong>.
+          </span>
+          {request.thumbnailUrl && request.thumbnailUrl.startsWith("https://www.youtube.com") && (
+            <a
+              href={request.thumbnailUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="text-primary hover:underline font-medium text-xs"
+            >
+              View on YouTube
+            </a>
+          )}
         </div>
-      ) : null}
-
-      <div className="grid md:grid-cols-3 gap-6">
-        <div className="md:col-span-2 space-y-6">
-          <Card className="glass-card overflow-hidden">
-            <div className="aspect-video bg-black/90 w-full relative group flex items-center justify-center overflow-hidden">
-              {request.videoUrl ? (
-                <video
-                  controls
-                  className="h-full w-full"
-                  src={request.videoUrl}
-                >
-                  Your browser does not support the video tag.
-                </video>
-              ) : (
-                <div className="text-center">
-                  <UploadCloud className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
-                  <p className="text-muted-foreground">No video uploaded yet</p>
-                  <p className="text-xs text-muted-foreground/60">
-                    ID: {request.id}
-                  </p>
-                </div>
-              )}
+      ) : (
+        <>
+          {request.note ? (
+            <div className="bg-blue-500/10 border border-blue-500/20 text-blue-700 dark:text-blue-300 rounded-lg p-4 text-sm">
+              <span className="font-semibold">Uploader Note:</span> {request.note}
             </div>
-            <CardContent className="p-4 flex flex-wrap gap-4 text-sm text-muted-foreground bg-muted/10">
-              <div>
-                Channel:{" "}
-                <span className="font-medium text-foreground">
-                  {request.channel.name}
-                </span>
-              </div>
-              <div>
-                Type:{" "}
-                <span className="font-medium text-foreground">
-                  {getTypeLabel(request.type)}
-                </span>
-              </div>
-              <div>
-                Status:{" "}
-                <span className="font-medium text-foreground">
-                  {getStatusLabel(request.status)}
-                </span>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+          ) : null}
 
-        <div className="space-y-6">
-          <Card className="glass-card">
-            <CardHeader>
-              <CardTitle className="text-lg">Metadata</CardTitle>
-              <CardDescription>Current request details</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ReviewMetadataEditor
-                requestId={request.id}
-                initialTitle={request.title || ""}
-                initialDescription={request.description || ""}
-                initialThumbnailUrl={request.thumbnailUrl || null}
-                canEdit={canReview}
-              />
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="md:col-span-2 space-y-6">
+              <Card className="glass-card overflow-hidden">
+                <div className="aspect-video bg-black/90 w-full relative group flex items-center justify-center overflow-hidden">
+                  {request.videoUrl ? (
+                    <video
+                      controls
+                      className="h-full w-full"
+                      src={request.videoUrl}
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+                  ) : (
+                    <div className="text-center">
+                      <UploadCloud className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
+                      <p className="text-muted-foreground">No video uploaded yet</p>
+                      <p className="text-xs text-muted-foreground/60">
+                        ID: {request.id}
+                      </p>
+                    </div>
+                  )}
+                </div>
+                <CardContent className="p-4 flex flex-wrap gap-4 text-sm text-muted-foreground bg-muted/10">
+                  <div>
+                    Channel:{" "}
+                    <span className="font-medium text-foreground">
+                      {request.channel.name}
+                    </span>
+                  </div>
+                  <div>
+                    Type:{" "}
+                    <span className="font-medium text-foreground">
+                      {getTypeLabel(request.type)}
+                    </span>
+                  </div>
+                  <div>
+                    Status:{" "}
+                    <span className="font-medium text-foreground">
+                      {getStatusLabel(request.status)}
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="space-y-6">
+              <Card className="glass-card">
+                <CardHeader>
+                  <CardTitle className="text-lg">Metadata</CardTitle>
+                  <CardDescription>Current request details</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ReviewMetadataEditor
+                    requestId={request.id}
+                    initialTitle={request.title || ""}
+                    initialDescription={request.description || ""}
+                    initialThumbnailUrl={request.thumbnailUrl || null}
+                    canEdit={canReview}
+                  />
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

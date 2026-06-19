@@ -1,10 +1,10 @@
 "use client";
 
-import { User, LogOut } from "lucide-react";
+import { useState, useEffect } from "react";
+import { User, LogOut, Sun, Moon } from "lucide-react";
 import { NotificationPopover } from "./NotificationPopover";
 import { signOut } from "next-auth/react";
 import type { Session } from "next-auth";
-import Image from "next/image";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,10 +15,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useTheme } from "next-themes";
+import { MobileNav } from "./MobileNav";
 
 export default function Navbar({ session }: { session: Session | null }) {
+  const { setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-6">
+    <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
+      <MobileNav />
       <div className="flex flex-1 items-center justify-end gap-3">
         <NotificationPopover />
 
@@ -44,6 +55,23 @@ export default function Navbar({ session }: { session: Session | null }) {
                 </p>
               </div>
             </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+              className="cursor-pointer"
+            >
+              {mounted && resolvedTheme === "dark" ? (
+                <>
+                  <Sun className="mr-2 h-4 w-4" />
+                  <span>Light Mode</span>
+                </>
+              ) : (
+                <>
+                  <Moon className="mr-2 h-4 w-4" />
+                  <span>Dark Mode</span>
+                </>
+              )}
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => signOut({ callbackUrl: "/login" })}

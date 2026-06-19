@@ -168,67 +168,85 @@ export function UploaderRequestList({
           No upload requests found for the selected channel.
         </div>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="space-y-3">
           {filteredRequests.map((request) => (
-            <Card key={request.id} className="glass-card">
-              <CardHeader>
-                <div className="flex items-center justify-between gap-3">
-                  <CardTitle className="text-lg">
+            <div
+              key={request.id}
+              className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border rounded-xl bg-card hover:bg-accent/40 transition-all gap-4 shadow-sm"
+            >
+              <div className="space-y-1.5 min-w-0">
+                <div className="flex items-center gap-2.5 flex-wrap">
+                  <span className="font-semibold text-foreground truncate text-sm sm:text-base">
                     {request.title || "Untitled upload"}
-                  </CardTitle>
-                  <Badge
-                    variant={
-                      request.status === "PENDING_REVIEW"
-                        ? "secondary"
-                        : request.status === "APPROVED"
-                          ? "default"
-                          : "outline"
-                    }
-                  >
-                    {request.status}
-                  </Badge>
+                  </span>
+                  {request.type && (
+                    <Badge
+                      variant={request.type === "SHORTS" ? "outline" : "default"}
+                      className="text-[10px] py-0.5 px-2 h-5 font-medium"
+                    >
+                      {request.type === "SHORTS" ? "Shorts" : "Long Video"}
+                    </Badge>
+                  )}
                 </div>
-                <CardDescription>{request.channel.name}</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-sm text-muted-foreground">
-                    Created on{" "}
-                    {new Date(request.createdAt).toLocaleDateString()}
-                  </p>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
+                  <span>{request.channel.name}</span>
+                  <span>•</span>
+                  <span>Created {new Date(request.createdAt).toLocaleDateString()}</span>
+                  <span>•</span>
                   <Link
                     href={`/uploader/${request.id}`}
-                    className="text-sm text-primary hover:underline"
+                    className="text-primary hover:underline font-medium"
                   >
                     View Details
                   </Link>
                 </div>
-                {request.status === "DRAFT" ? (
-                  <div className="flex flex-wrap gap-2">
+              </div>
+
+              <div className="flex items-center gap-3 shrink-0 flex-wrap sm:flex-nowrap justify-between sm:justify-end">
+                <Badge
+                  variant={
+                    request.status === "PENDING_REVIEW"
+                      ? "secondary"
+                      : request.status === "APPROVED" || request.status === "UPLOADED"
+                        ? "default"
+                        : "outline"
+                  }
+                  className="text-[10px] py-0.5 px-2.5 h-5 font-semibold uppercase tracking-wider shrink-0"
+                >
+                  {request.status}
+                </Badge>
+
+                {(request.status === "DRAFT" || request.status === "PENDING_REVIEW") && (
+                  <div className="flex items-center gap-1.5">
                     <Button
                       size="sm"
                       variant="outline"
                       onClick={() => openDraftEditor(request)}
+                      className="h-8 text-xs px-2.5"
                     >
-                      Edit Request
+                      Edit
                     </Button>
-                    <Button
-                      size="sm"
-                      onClick={() => onSubmitDraftAction(request.id)}
-                    >
-                      Send Request
-                    </Button>
+                    {request.status === "DRAFT" && (
+                      <Button
+                        size="sm"
+                        onClick={() => onSubmitDraftAction(request.id)}
+                        className="h-8 text-xs px-2.5"
+                      >
+                        Send
+                      </Button>
+                    )}
                     <Button
                       size="sm"
                       variant="outline"
                       onClick={() => onDeleteDraftAction(request.id)}
+                      className="h-8 text-xs px-2.5 text-destructive hover:bg-destructive/10 hover:text-destructive"
                     >
-                      Delete Request
+                      Delete
                     </Button>
                   </div>
-                ) : null}
-              </CardContent>
-            </Card>
+                )}
+              </div>
+            </div>
           ))}
         </div>
       )}

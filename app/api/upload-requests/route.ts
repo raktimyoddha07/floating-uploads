@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { logActivity } from "@/modules/acitivty";
 import { logAudit } from "@/modules/audit";
 import { inngest } from "@/inngest/client";
+import { storageService } from "@/modules/storage";
 
 export async function PATCH(req: NextRequest) {
   try {
@@ -63,7 +64,7 @@ export async function PATCH(req: NextRequest) {
     }
 
     if (body.action === "update-draft") {
-      const editable = ["DRAFT"];
+      const editable = ["DRAFT", "PENDING_REVIEW"];
       if (request.uploaderId !== userId || !editable.includes(request.status)) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
@@ -125,6 +126,23 @@ export async function PATCH(req: NextRequest) {
       body.action === "approve"
         ? await uploadRequestService.approveRequest(body.id)
         : await uploadRequestService.rejectRequest(body.id);
+
+    if (body.action === "reject") {
+      if (request.videoUrl) {
+        try {
+          await storageService.delete(request.videoUrl);
+        } catch (e) {
+          console.error("Failed to delete video on reject:", e);
+        }
+      }
+      if (request.thumbnailUrl && !request.thumbnailUrl.startsWith("http")) {
+        try {
+          await storageService.delete(request.thumbnailUrl);
+        } catch (e) {
+          console.error("Failed to delete thumbnail on reject:", e);
+        }
+      }
+    }
 
     // Trigger actual YouTube upload when owner approves
     if (body.action === "approve") {

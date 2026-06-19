@@ -66,6 +66,7 @@ export default function UploaderSectionPage() {
   const [uploadComplete, setUploadComplete] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"list" | "new">("list");
+  const [uploadActionType, setUploadActionType] = useState<"draft" | "submit">("submit");
 
   const bootstrapData = async () => {
     try {
@@ -117,11 +118,6 @@ export default function UploaderSectionPage() {
   const activeChannel =
     channels.find((channel) => channel.id === channelId) || null;
 
-  const filteredRequests = useMemo(() => {
-    if (!channelId) return requests;
-    return requests.filter((request) => request.channelId === channelId);
-  }, [requests, channelId]);
-
   // Auto-select type when switching channels
   useEffect(() => {
     if (activeChannel) {
@@ -133,11 +129,11 @@ export default function UploaderSectionPage() {
     }
   }, [activeChannel]);
 
-  const activeDraftCount = filteredRequests.filter(
-    (r) => r.status === "DRAFT",
+  const activeDraftCount = requests.filter(
+    (r) => r.channelId === channelId && r.status === "DRAFT",
   ).length;
-  const pendingReviewCount = filteredRequests.filter(
-    (r) => r.status === "PENDING_REVIEW",
+  const pendingReviewCount = requests.filter(
+    (r) => r.channelId === channelId && r.status === "PENDING_REVIEW",
   ).length;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -171,6 +167,7 @@ export default function UploaderSectionPage() {
     formData.append("note", note);
     formData.append("type", type);
     formData.append("channelId", channelId);
+    formData.append("status", uploadActionType === "submit" ? "PENDING_REVIEW" : "DRAFT");
 
     try {
       const res = await fetch("/api/uploads", {
@@ -241,7 +238,7 @@ export default function UploaderSectionPage() {
             Uploader Workspace
           </h1>
           <p className="text-muted-foreground">
-            Select a channel, create requests, and track their progress.
+            Create requests and track their progress.
           </p>
         </div>
         <Button
@@ -275,226 +272,193 @@ export default function UploaderSectionPage() {
           </p>
         </div>
       ) : (
-        /* Main split-pane layout */
-        <div className="flex gap-6 min-h-0">
-          {/* ── Left: channel sidebar ── */}
-          <aside className="w-56 shrink-0 flex flex-col gap-2">
-            <p className="text-xs uppercase tracking-widest text-muted-foreground px-1 mb-1">
-              Channels ({channels.length})
-            </p>
-            <div className="flex flex-col gap-1 overflow-y-auto max-h-[calc(100vh-220px)] pr-1">
-              {channels.map((channel) => {
-                const isActive = channel.id === channelId;
-                const chReqs = requests.filter(
-                  (r) => r.channelId === channel.id,
-                );
-                const pending = chReqs.filter(
-                  (r) => r.status === "PENDING_REVIEW",
-                ).length;
-                const drafts = chReqs.filter(
-                  (r) => r.status === "DRAFT",
-                ).length;
+        /* Main layout without sidebar */
+        <div className="flex flex-col gap-6 min-h-0">
+          {/* Tabs header */}
+          <div className="flex gap-2 bg-muted/40 p-1 rounded-full w-fit mb-2">
+            <button
+              type="button"
+              onClick={() => setActiveTab("list")}
+              className={`px-4 py-2 text-sm font-medium rounded-full transition-all ${
+                activeTab === "list"
+                  ? "bg-background text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              My Requests
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab("new")}
+              className={`px-4 py-2 text-sm font-medium rounded-full transition-all ${
+                activeTab === "new"
+                  ? "bg-background text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              New Upload Request
+            </button>
+          </div>
 
-                return (
-                  <button
-                    key={channel.id}
-                    type="button"
-                    onClick={() => setChannelId(channel.id)}
-                    className={`w-full rounded-xl px-3 py-3 text-left transition-all ${
-                      isActive
-                        ? "bg-primary/10 border border-primary/30 shadow-sm"
-                        : "border border-transparent hover:bg-muted/40"
-                    }`}
-                  >
-                    <p
-                      className={`text-sm font-medium truncate ${isActive ? "text-primary" : ""}`}
-                    >
-                      {channel.name}
-                    </p>
-                    <div className="flex gap-1.5 mt-1.5 flex-wrap">
-                      {drafts > 0 && (
-                        <span className="text-[10px] bg-muted text-muted-foreground rounded-full px-2 py-0.5">
-                          {drafts} draft{drafts > 1 ? "s" : ""}
-                        </span>
-                      )}
-                      {pending > 0 && (
-                        <span className="text-[10px] bg-yellow-500/15 text-yellow-500 rounded-full px-2 py-0.5">
-                          {pending} review
-                        </span>
-                      )}
-                      {drafts === 0 && pending === 0 && (
-                        <span className="text-[10px] text-muted-foreground/50">
-                          No requests
-                        </span>
-                      )}
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </aside>
+          {activeTab === "new" ? (
+            <Card className="glass-card max-w-4xl">
+              <form onSubmit={handleUpload}>
+                <CardHeader>
+                  <CardTitle>New Upload Request</CardTitle>
+                  <CardDescription>
+                    Select a channel and provide details for your upload request.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-5">
+                  <div className="space-y-2">
+                    <Label htmlFor="channel">Channel</Label>
+                    <Select value={channelId} onValueChange={setChannelId}>
+                      <SelectTrigger id="channel" className="w-full">
+                        <SelectValue placeholder="Select a channel" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {channels.map((channel) => (
+                          <SelectItem key={channel.id} value={channel.id}>
+                            {channel.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-          {/* ── Right: content ── */}
-          {activeChannel ? (
-            <div className="flex-1 min-w-0 flex flex-col gap-4">
-              {/* Tabs header */}
-              {/* Tabs header */}
-              <div className="flex gap-2 bg-muted/40 p-1 rounded-full w-fit mb-2">
-                <button
-                  type="button"
-                  onClick={() => setActiveTab("list")}
-                  className={`px-4 py-2 text-sm font-medium rounded-full transition-all ${
-                    activeTab === "list"
-                      ? "bg-background text-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  My Requests
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab("new")}
-                  className={`px-4 py-2 text-sm font-medium rounded-full transition-all ${
-                    activeTab === "new"
-                      ? "bg-background text-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  New Upload Request
-                </button>
-              </div>
+                  {activeChannel && (
+                    <>
+                      <div className="flex items-center gap-2 mb-4">
+                        <Badge variant="outline" className="text-xs rounded-full">
+                          {activeDraftCount} draft{activeDraftCount !== 1 ? 's' : ''}
+                        </Badge>
+                        <Badge
+                          variant="outline"
+                          className="text-xs rounded-full ml-1"
+                        >
+                          {pendingReviewCount} pending
+                        </Badge>
+                      </div>
 
-              {activeTab === "new" ? (
-              <Card className="glass-card">
-                <form onSubmit={handleUpload}>
-                  <CardHeader>
-                    <CardTitle>New Upload Request</CardTitle>
-                    <CardDescription>
-                      Channel:{" "}
-                      <span className="text-foreground font-medium">
-                        {activeChannel.name}
-                      </span>{" "}
-                      &bull;{" "}
-                      <Badge variant="outline" className="text-xs rounded-full">
-                        {activeDraftCount} draft
-                      </Badge>{" "}
-                      <Badge
-                        variant="outline"
-                        className="text-xs rounded-full ml-1"
-                      >
-                        {pendingReviewCount} pending
-                      </Badge>
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-5">
-                    <div className="space-y-2">
-                      <Label htmlFor="type">Video Type</Label>
-                      <Select 
-                        value={type} 
-                        onValueChange={setType}
-                        disabled={activeChannel?.permission === "SHORTS" || activeChannel?.permission === "LONG_VIDEO"}
-                      >
-                        <SelectTrigger id="type" className="w-full">
-                          <SelectValue placeholder="Select type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {(!activeChannel || activeChannel.permission === "BOTH" || activeChannel.permission === "SHORTS") && (
-                            <SelectItem value="SHORTS">Shorts</SelectItem>
-                          )}
-                          {(!activeChannel || activeChannel.permission === "BOTH" || activeChannel.permission === "LONG_VIDEO") && (
-                            <SelectItem value="LONG_VIDEO">Long Video</SelectItem>
-                          )}
-                        </SelectContent>
-                      </Select>
-                    </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="type">Video Type</Label>
+                        <Select 
+                          value={type} 
+                          onValueChange={setType}
+                          disabled={activeChannel.permission === "SHORTS" || activeChannel.permission === "LONG_VIDEO"}
+                        >
+                          <SelectTrigger id="type" className="w-full">
+                            <SelectValue placeholder="Select type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {(activeChannel.permission === "BOTH" || activeChannel.permission === "SHORTS") && (
+                              <SelectItem value="SHORTS">Shorts</SelectItem>
+                            )}
+                            {(activeChannel.permission === "BOTH" || activeChannel.permission === "LONG_VIDEO") && (
+                              <SelectItem value="LONG_VIDEO">Long Video</SelectItem>
+                            )}
+                          </SelectContent>
+                        </Select>
+                      </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="title">YouTube Title</Label>
-                      <Input
-                        id="title"
-                        placeholder="Enter an engaging title..."
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        required
-                      />
-                    </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="title">YouTube Title</Label>
+                        <Input
+                          id="title"
+                          placeholder="Enter an engaging title..."
+                          value={title}
+                          onChange={(e) => setTitle(e.target.value)}
+                          required
+                        />
+                      </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="note">Note to Owner (Optional)</Label>
-                      <Input
-                        id="note"
-                        placeholder="E.g., Please review the intro sequence..."
-                        value={note}
-                        onChange={(e) => setNote(e.target.value)}
-                      />
-                    </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="note">Note to Owner (Optional)</Label>
+                        <Input
+                          id="note"
+                          placeholder="E.g., Please review the intro sequence..."
+                          value={note}
+                          onChange={(e) => setNote(e.target.value)}
+                        />
+                      </div>
 
-                    <div className="space-y-2">
-                      <Label>Video File</Label>
-                      {!uploadComplete ? (
-                        <div className="border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center text-center bg-muted/20 hover:bg-muted/40 transition-colors">
-                          <UploadCloud className="h-10 w-10 text-muted-foreground mb-4" />
-                          <p className="text-sm font-medium mb-1">
-                            Drag & drop your video here
-                          </p>
-                          <p className="text-xs text-muted-foreground mb-4">
-                            MP4, MOV up to 10GB
-                          </p>
-                          <Input
-                            type="file"
-                            accept="video/*"
-                            className="max-w-xs cursor-pointer"
-                            onChange={handleFileChange}
-                            required
-                          />
-                        </div>
-                      ) : (
-                        <div className="border border-green-500/20 bg-green-500/10 rounded-xl p-6 flex flex-col items-center text-center">
-                          <CheckCircle2 className="h-10 w-10 text-green-500 mb-2" />
-                          <p className="font-medium text-green-600 dark:text-green-400">
-                            Upload Complete
-                          </p>
-                          <p className="text-sm text-muted-foreground">
-                            Saved as draft for {activeChannel.name}.
-                          </p>
-                        </div>
-                      )}
-
-                      {(isUploading || progress > 0) && !uploadComplete && (
-                        <div className="space-y-2 mt-4">
-                          <div className="flex justify-between text-xs text-muted-foreground">
-                            <span>Uploading...</span>
-                            <span>{progress}%</span>
+                      <div className="space-y-2">
+                        <Label>Video File</Label>
+                        {!uploadComplete ? (
+                          <div className="border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center text-center bg-muted/20 hover:bg-muted/40 transition-colors">
+                            <UploadCloud className="h-10 w-10 text-muted-foreground mb-4" />
+                            <p className="text-sm font-medium mb-1">
+                              Drag & drop your video here
+                            </p>
+                            <p className="text-xs text-muted-foreground mb-4">
+                              MP4, MOV up to 10GB
+                            </p>
+                            <Input
+                              type="file"
+                              accept="video/*"
+                              className="max-w-xs cursor-pointer"
+                              onChange={handleFileChange}
+                              required
+                            />
                           </div>
-                          <Progress value={progress} className="h-2" />
-                        </div>
-                      )}
+                        ) : (
+                          <div className="border border-green-500/20 bg-green-500/10 rounded-xl p-6 flex flex-col items-center text-center">
+                            <CheckCircle2 className="h-10 w-10 text-green-500 mb-2" />
+                            <p className="font-medium text-green-600 dark:text-green-400">
+                              Upload Complete
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              {uploadActionType === "submit"
+                                ? `Submitted request for review for ${activeChannel.name}.`
+                                : `Saved as draft for ${activeChannel.name}.`}
+                            </p>
+                          </div>
+                        )}
 
-                      {errorMessage && (
-                        <p className="text-sm text-destructive mt-2">
-                          {errorMessage}
-                        </p>
-                      )}
-                    </div>
+                        {(isUploading || progress > 0) && !uploadComplete && (
+                          <div className="space-y-2 mt-4">
+                             <div className="flex justify-between text-xs text-muted-foreground">
+                               <span>Uploading...</span>
+                               <span>{progress}%</span>
+                             </div>
+                             <Progress value={progress} className="h-2" />
+                          </div>
+                        )}
 
-                    <div className="space-y-2">
-                      <Label htmlFor="description">Description</Label>
-                      <Textarea
-                        id="description"
-                        placeholder="Enter video description..."
-                        className="min-h-24"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                      />
-                    </div>
-                  </CardContent>
+                        {errorMessage && (
+                          <p className="text-sm text-destructive mt-2">
+                            {errorMessage}
+                          </p>
+                        )}
+                      </div>
 
+                      <div className="space-y-2">
+                        <Label htmlFor="description">Description</Label>
+                        <Textarea
+                          id="description"
+                          placeholder="Enter video description..."
+                          className="min-h-24"
+                          value={description}
+                          onChange={(e) => setDescription(e.target.value)}
+                        />
+                      </div>
+                    </>
+                  )}
+                </CardContent>
+
+                {activeChannel && (
                   <div className="p-6 pt-0 flex justify-end gap-3">
-                    <Button variant="outline" type="button" disabled>
+                    <Button
+                      variant="outline"
+                      type="submit"
+                      onClick={() => setUploadActionType("draft")}
+                      disabled={!file || !channelId || isUploading}
+                    >
                       Save Draft
                     </Button>
                     <Button
                       type="submit"
+                      onClick={() => setUploadActionType("submit")}
                       disabled={!file || !channelId || isUploading}
                       className="rounded-full shadow-lg"
                     >
@@ -504,22 +468,17 @@ export default function UploaderSectionPage() {
                       {!isUploading && "Send Request"}
                     </Button>
                   </div>
-                </form>
-              </Card>
-              ) : (
-              <UploaderRequestList
-                requests={filteredRequests}
-                channels={channels}
-                onDeleteDraftAction={handleDeleteDraft}
-                onSubmitDraftAction={handleSubmitDraft}
-                onUpdateDraftAction={handleUpdateDraft}
-              />
-              )}
-            </div>
+                )}
+              </form>
+            </Card>
           ) : (
-            <div className="flex-1 flex items-center justify-center text-muted-foreground">
-              Select a channel from the left to get started.
-            </div>
+            <UploaderRequestList
+              requests={requests}
+              channels={channels}
+              onDeleteDraftAction={handleDeleteDraft}
+              onSubmitDraftAction={handleSubmitDraft}
+              onUpdateDraftAction={handleUpdateDraft}
+            />
           )}
         </div>
       )}
