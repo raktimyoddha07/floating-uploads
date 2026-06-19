@@ -47,13 +47,13 @@ export default async function DashboardHomePage() {
 
   return (
     <div className="space-y-6">
-      <Card className="glass-card overflow-hidden border-primary/20">
-        <CardContent className="p-6 md:p-8">
-          <div className="space-y-2">
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
+      <Card>
+        <CardContent className="p-6">
+          <div className="space-y-1">
+            <h1 className="text-2xl font-semibold tracking-tight">
               Welcome back, {firstName} 👋
             </h1>
-            <p className="text-muted-foreground max-w-2xl">
+            <p className="text-sm text-muted-foreground">
               Track channels, upload requests, uploader activity, and pending
               actions from one place.
             </p>
@@ -62,25 +62,25 @@ export default async function DashboardHomePage() {
       </Card>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <Card className="glass-card">
+        <Card>
           <CardHeader className="pb-2">
             <CardDescription>Connected Channels</CardDescription>
             <CardTitle className="text-3xl">{ownedChannels}</CardTitle>
           </CardHeader>
         </Card>
-        <Card className="glass-card">
+        <Card>
           <CardHeader className="pb-2">
             <CardDescription>Total Requests</CardDescription>
             <CardTitle className="text-3xl">{uploadRequests}</CardTitle>
           </CardHeader>
         </Card>
-        <Card className="glass-card">
+        <Card>
           <CardHeader className="pb-2">
             <CardDescription>Active Collaborators</CardDescription>
             <CardTitle className="text-3xl">{assignments}</CardTitle>
           </CardHeader>
         </Card>
-        <Card className="glass-card">
+        <Card>
           <CardHeader className="pb-2">
             <CardDescription>Unread Notifications</CardDescription>
             <CardTitle className="text-3xl">{unreadNotifications}</CardTitle>
@@ -88,7 +88,7 @@ export default async function DashboardHomePage() {
         </Card>
       </div>
 
-      <Card className="rounded-xl border bg-card/50 backdrop-blur-sm text-card-foreground shadow-sm p-0 overflow-hidden">
+      <Card>
         <CardHeader>
           <CardTitle>Recent Review Queue</CardTitle>
           <CardDescription>
@@ -97,17 +97,17 @@ export default async function DashboardHomePage() {
         </CardHeader>
         <CardContent className="space-y-3">
           {recentRequests.length === 0 ? (
-            <div className="rounded-xl border border-dashed p-6 text-sm text-muted-foreground">
+            <div className="rounded-md border border-dashed p-6 text-sm text-muted-foreground text-center">
               No upload requests yet.
             </div>
           ) : (
             recentRequests.map((request) => (
               <div
                 key={request.id}
-                className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 rounded-xl border bg-background/30 p-4"
+                className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 rounded-md border p-4"
               >
                 <div>
-                  <p className="font-medium">
+                  <p className="text-sm font-medium">
                     {request.title || "Untitled upload"}
                   </p>
                   <p className="text-sm text-muted-foreground">

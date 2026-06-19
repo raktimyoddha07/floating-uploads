@@ -210,7 +210,7 @@ export function UploaderRequestList({
                       variant="outline"
                       onClick={() => openDraftEditor(request)}
                     >
-                      Edit Draft
+                      Edit Request
                     </Button>
                     <Button
                       size="sm"
@@ -223,7 +223,7 @@ export function UploaderRequestList({
                       variant="outline"
                       onClick={() => onDeleteDraftAction(request.id)}
                     >
-                      Delete Draft
+                      Delete Request
                     </Button>
                   </div>
                 ) : null}
@@ -239,9 +239,9 @@ export function UploaderRequestList({
       >
         <DialogContent className="glass sm:max-w-[560px]">
           <DialogHeader>
-            <DialogTitle>Edit Draft</DialogTitle>
+            <DialogTitle>Edit Request</DialogTitle>
             <DialogDescription>
-              Update your draft request without changing the page structure.
+              Update your request details.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
@@ -319,7 +319,7 @@ export function UploaderRequestList({
             <Button variant="outline" onClick={() => setEditingRequest(null)}>
               Cancel
             </Button>
-            <Button onClick={handleSaveDraft}>Save Draft</Button>
+            <Button onClick={handleSaveDraft}>Save Changes</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

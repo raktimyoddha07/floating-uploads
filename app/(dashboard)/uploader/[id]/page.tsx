@@ -3,7 +3,7 @@ import { uploadRequestService } from "@/modules/upload-requests/services/upload-
 import { getServerSession } from "next-auth";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, UploadCloud } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -43,12 +43,23 @@ export default async function UploaderRequestDetailPage({
       </div>
 
       <Card className="glass-card overflow-hidden">
-        <div className="aspect-video bg-black/90 w-full flex items-center justify-center overflow-hidden">
+        <div className="bg-muted/10 w-full flex items-center justify-center p-10 border-b">
           {request.videoUrl ? (
-            <video controls className="h-full w-full" src={request.videoUrl}>
-              Your browser does not support the video tag.
-            </video>
-          ) : null}
+            <div className="flex flex-col items-center gap-3 text-muted-foreground">
+              <div className="h-16 w-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-2">
+                <UploadCloud className="h-8 w-8" />
+              </div>
+              <p className="font-medium text-foreground">
+                {request.videoUrl.split('/').pop()?.replace(/^\d+-/, '') || "Video File Attached"}
+              </p>
+              <p className="text-sm">File is securely uploaded</p>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-3 text-muted-foreground">
+              <UploadCloud className="h-10 w-10 opacity-50" />
+              <p>No video file attached</p>
+            </div>
+          )}
         </div>
       </Card>
 

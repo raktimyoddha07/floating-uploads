@@ -6,6 +6,7 @@ import { uploadRequestService } from "@/modules/upload-requests/services/upload-
 import { prisma } from "@/lib/prisma";
 import { logActivity } from "@/modules/acitivty";
 import { logAudit } from "@/modules/audit";
+import { inngest } from "@/inngest/client";
 
 export async function PATCH(req: NextRequest) {
   try {
@@ -45,8 +46,8 @@ export async function PATCH(req: NextRequest) {
     }
 
     if (body.action === "submit") {
-      if (request.uploaderId !== userId) {
-        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      if (request.uploaderId !== userId || request.status !== "DRAFT") {
+        return NextResponse.json({ error: "Forbidden or not in DRAFT status" }, { status: 403 });
       }
 
       const updated = await uploadRequestService.submitForReview(body.id);
@@ -62,7 +63,8 @@ export async function PATCH(req: NextRequest) {
     }
 
     if (body.action === "update-draft") {
-      if (request.uploaderId !== userId || request.status !== "DRAFT") {
+      const editable = ["DRAFT"];
+      if (request.uploaderId !== userId || !editable.includes(request.status)) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
 
@@ -88,6 +90,10 @@ export async function PATCH(req: NextRequest) {
 
     if (request.channel.ownerId !== userId) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    if (["schedule", "approve", "reject"].includes(body.action) && request.status !== "PENDING_REVIEW") {
+      return NextResponse.json({ error: "Request is already processed or not pending review" }, { status: 400 });
     }
 
     if (body.action === "schedule") {
@@ -120,6 +126,18 @@ export async function PATCH(req: NextRequest) {
         ? await uploadRequestService.approveRequest(body.id)
         : await uploadRequestService.rejectRequest(body.id);
 
+    // Trigger actual YouTube upload when owner approves
+    if (body.action === "approve") {
+      try {
+        await inngest.send({
+          name: "upload/process",
+          data: { requestId: body.id },
+        });
+      } catch (inngestError) {
+        console.error("Failed to enqueue YouTube upload task:", inngestError);
+      }
+    }
+
     await prisma.notification.create({
       data: {
         userId: request.uploaderId,
@@ -127,7 +145,7 @@ export async function PATCH(req: NextRequest) {
           body.action === "approve" ? "REQUEST_APPROVED" : "REQUEST_REJECTED",
         title:
           body.action === "approve" ? "Request approved" : "Request rejected",
-        message: `Your upload request \"${request.title || "Untitled upload"}\" was ${body.action}d.`,
+        message: `Your upload request \"${request.title || "Untitled upload"}\" was ${body.action === "approve" ? "approved and queued for YouTube upload" : "rejected"}.`,
         link: `/review-request/${request.id}`,
       },
     });
@@ -135,7 +153,7 @@ export async function PATCH(req: NextRequest) {
     await logActivity(
       userId,
       body.action === "approve"
-        ? "Approved upload request"
+        ? "Approved upload request and triggered YouTube upload"
         : "Rejected upload request",
       body.id,
     );
@@ -179,10 +197,11 @@ export async function DELETE(req: NextRequest) {
 
     const request = await uploadRequestRepository.findById(id);
 
+    const deletable = ["DRAFT", "PENDING_REVIEW"];
     if (
       !request ||
       request.uploaderId !== userId ||
-      request.status !== "DRAFT"
+      !deletable.includes(request.status)
     ) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }

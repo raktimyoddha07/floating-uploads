@@ -1,12 +1,13 @@
 import { ReactNode } from "react";
-import { Outfit } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import Sidebar from "@/components/layout/Sidebar";
 import "@/app/(public)/globals.css";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 
-const outfit = Outfit({ subsets: ["latin"] });
+const geistSans = Geist({ subsets: ["latin"], variable: "--font-sans" });
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
 export const metadata = {
   title: "Dashboard - Floating Uploads",
@@ -18,17 +19,12 @@ export default async function DashboardLayout({ children }: { children: ReactNod
 
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
-      <body className={`${outfit.className} bg-background text-foreground antialiased min-h-screen`} suppressHydrationWarning>
-        <div className="flex h-screen overflow-hidden bg-gradient-to-br from-background to-secondary/20">
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans bg-background text-foreground antialiased min-h-screen`} suppressHydrationWarning>
+        <div className="flex h-screen overflow-hidden">
           <Sidebar />
-
-          <div className="flex flex-1 flex-col overflow-hidden relative">
-            {/* Ambient Background Glow for premium aesthetics */}
-            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary/10 blur-[120px] pointer-events-none" />
-
+          <div className="flex flex-1 flex-col overflow-hidden">
             <Navbar session={session} />
-
-            <main className="flex-1 overflow-y-auto p-6 md:p-8 z-10">
+            <main className="flex-1 overflow-y-auto p-6 md:p-8">
               {children}
             </main>
           </div>

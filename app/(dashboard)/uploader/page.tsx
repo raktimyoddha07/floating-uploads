@@ -65,6 +65,7 @@ export default function UploaderSectionPage() {
   const [progress, setProgress] = useState(0);
   const [uploadComplete, setUploadComplete] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<"list" | "new">("list");
 
   const bootstrapData = async () => {
     try {
@@ -335,8 +336,35 @@ export default function UploaderSectionPage() {
 
           {/* ── Right: content ── */}
           {activeChannel ? (
-            <div className="flex-1 min-w-0 grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
-              {/* Upload form */}
+            <div className="flex-1 min-w-0 flex flex-col gap-4">
+              {/* Tabs header */}
+              {/* Tabs header */}
+              <div className="flex gap-2 bg-muted/40 p-1 rounded-full w-fit mb-2">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("list")}
+                  className={`px-4 py-2 text-sm font-medium rounded-full transition-all ${
+                    activeTab === "list"
+                      ? "bg-background text-foreground shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  My Requests
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("new")}
+                  className={`px-4 py-2 text-sm font-medium rounded-full transition-all ${
+                    activeTab === "new"
+                      ? "bg-background text-foreground shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  New Upload Request
+                </button>
+              </div>
+
+              {activeTab === "new" ? (
               <Card className="glass-card">
                 <form onSubmit={handleUpload}>
                   <CardHeader>
@@ -478,8 +506,7 @@ export default function UploaderSectionPage() {
                   </div>
                 </form>
               </Card>
-
-              {/* Request list */}
+              ) : (
               <UploaderRequestList
                 requests={filteredRequests}
                 channels={channels}
@@ -487,6 +514,7 @@ export default function UploaderSectionPage() {
                 onSubmitDraftAction={handleSubmitDraft}
                 onUpdateDraftAction={handleUpdateDraft}
               />
+              )}
             </div>
           ) : (
             <div className="flex-1 flex items-center justify-center text-muted-foreground">

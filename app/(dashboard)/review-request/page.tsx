@@ -75,7 +75,7 @@ export default async function ReviewRequestPage() {
             {pendingRequests.map((request) => (
               <Card
                 key={request.id}
-                className="glass-card hover:border-primary/30 transition-colors"
+                className="hover:bg-accent/50 transition-colors"
               >
                 <CardHeader className="pb-3">
                   <div className="flex justify-between items-start">
@@ -103,11 +103,7 @@ export default async function ReviewRequestPage() {
                     {format(request.createdAt, "dd MMM yyyy")}
                   </span>
                   <Link href={`/review-request/${request.id}`}>
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      className="rounded-full shadow-sm"
-                    >
+                    <Button size="sm" variant="secondary">
                       <Eye className="mr-2 h-4 w-4" /> Review
                     </Button>
                   </Link>
@@ -129,17 +125,14 @@ export default async function ReviewRequestPage() {
             No reviewed requests yet.
           </div>
         ) : (
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 opacity-70 hover:opacity-100 transition-opacity">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {reviewedRequests.map((request) => (
-              <Card
-                key={request.id}
-                className="bg-card/30 backdrop-blur-sm border-white/5 shadow-sm"
-              >
+              <Card key={request.id}>
                 <CardHeader className="pb-3">
                   <div className="flex justify-between items-start">
                     <Badge
                       variant={getStatusBadgeVariant(request.status)}
-                      className="mb-2 bg-background/50"
+                      className="mb-2"
                     >
                       {request.status}
                     </Badge>

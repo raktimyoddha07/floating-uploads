@@ -10,6 +10,7 @@ import {
   Settings,
   PlugZap,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -24,11 +25,9 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="hidden w-64 flex-col border-r bg-background/50 backdrop-blur-xl md:flex z-20 shadow-lg">
+    <aside className="hidden w-64 flex-col border-r bg-background md:flex">
       <div className="flex h-16 items-center border-b px-6">
-        <h2 className="text-lg font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
-          Floating Uploads
-        </h2>
+        <h2 className="text-base font-semibold">Floating Uploads</h2>
       </div>
       <nav className="flex-1 space-y-1 px-3 py-4">
         {routes.map((route) => {
@@ -40,20 +39,15 @@ export default function Sidebar() {
             <Link
               key={route.href}
               href={route.href}
-              className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 group ${isActive
-                  ? "bg-primary/10 text-primary"
-                  : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
-                }`}
-            >
-              <Icon
-                className={`h-5 w-5 transition-transform duration-200 ${isActive ? "scale-110" : "group-hover:scale-110"}`}
-              />
-              {route.name}
-
-              {/* Active indicator bar */}
-              {isActive && (
-                <div className="absolute left-0 w-1 h-8 bg-primary rounded-r-full" />
+              className={cn(
+                "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                isActive
+                  ? "bg-secondary text-secondary-foreground"
+                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
               )}
+            >
+              <Icon className="h-4 w-4 shrink-0" />
+              {route.name}
             </Link>
           );
         })}

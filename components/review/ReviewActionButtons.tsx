@@ -35,10 +35,10 @@ export function ReviewActionButtons({
       }
 
       router.refresh();
+      router.push("/dashboard");
     } catch (error) {
       console.error(`Failed to ${action} request`, error);
-    } finally {
-      setPendingAction(null);
+      setPendingAction(null); // only reset on error so it stays loading during redirect
     }
   };
 

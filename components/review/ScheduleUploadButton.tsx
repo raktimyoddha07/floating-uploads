@@ -51,10 +51,9 @@ export function ScheduleUploadButton({
       }
 
       setOpen(false);
-      router.refresh();
+      router.push("/dashboard");
     } catch (error) {
       console.error("Failed to schedule upload", error);
-    } finally {
       setIsSaving(false);
     }
   };

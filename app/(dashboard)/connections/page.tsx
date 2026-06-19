@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { ConnectChannelCard } from "@/components/channel/ConnectChannelCard";
 
+import { DisconnectChannelButton } from "@/components/channel/DisconnectChannelButton";
+
 export default async function ConnectionsPage() {
   const session = await getServerSession(authOptions);
   const userId = session?.user && "id" in session.user ? session.user.id : null;
@@ -29,7 +31,7 @@ export default async function ConnectionsPage() {
           </p>
         </div>
         <Link href="/api/youtube/auth">
-          <Button className="rounded-full shadow-lg">Connect YouTube Channel</Button>
+          <Button>Connect YouTube Channel</Button>
         </Link>
       </div>
 
@@ -41,11 +43,11 @@ export default async function ConnectionsPage() {
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {channels.map((channel) => (
             <Link key={channel.id} href={`/connections/${channel.id}`}>
-              <Card className="glass-card hover:border-primary/30 transition-colors h-full cursor-pointer">
+              <Card className="h-full cursor-pointer hover:bg-accent/50 transition-colors">
                 <CardContent className="p-6 space-y-4">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <div className="relative h-12 w-12 overflow-hidden rounded-full border border-white/10 bg-background/40 shrink-0">
+                      <div className="relative h-12 w-12 overflow-hidden rounded-full border bg-muted shrink-0">
                         {channel.pictureUrl ? (
                           <Image
                             src={channel.pictureUrl}
@@ -66,14 +68,21 @@ export default async function ConnectionsPage() {
                         </p>
                       </div>
                     </div>
-                    <Badge variant="secondary" className="shrink-0">Connected</Badge>
+                    <div className="flex items-center shrink-0">
+                      <DisconnectChannelButton
+                        channelId={channel.id}
+                        channelName={channel.name}
+                        variant="ghost"
+                        className="h-8 text-destructive hover:bg-destructive/10 hover:text-destructive px-2 rounded-lg"
+                      />
+                    </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3 text-sm">
-                    <div className="rounded-xl border bg-background/30 p-3">
+                    <div className="rounded-md border p-3">
                       <p className="text-muted-foreground text-xs uppercase tracking-wide">Uploaders</p>
                       <p className="font-semibold mt-2">{channel._count.assignments}</p>
                     </div>
-                    <div className="rounded-xl border bg-background/30 p-3">
+                    <div className="rounded-md border p-3">
                       <p className="text-muted-foreground text-xs uppercase tracking-wide">Pending Review</p>
                       <p className="font-semibold mt-2">{channel._count.requests}</p>
                     </div>

@@ -7,7 +7,7 @@ export class LocalStorageProvider implements IStorageProvider {
   private baseUrl: string;
 
   constructor(uploadsDir?: string, baseUrl?: string) {
-    this.uploadsDir = uploadsDir || path.join(process.cwd(), "uploads");
+    this.uploadsDir = uploadsDir || path.join(process.cwd(), "public", "uploads");
     this.baseUrl = (
       baseUrl ||
       process.env.NEXT_PUBLIC_APP_URL ||

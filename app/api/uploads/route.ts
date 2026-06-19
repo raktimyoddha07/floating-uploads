@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { storageService } from "@/modules/storage";
-import { inngest } from "@/inngest/client";
+
 import { UploadType } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
@@ -50,13 +50,8 @@ export async function POST(req: NextRequest) {
       },
     );
 
-    // Trigger Inngest Background Job
-    await inngest.send({
-      name: "upload/process",
-      data: {
-        requestId: uploadRequest.id,
-      },
-    });
+    // Inngest Background Job will be triggered when the owner approves the request
+
 
     return NextResponse.json({
       url: storedFile.url,

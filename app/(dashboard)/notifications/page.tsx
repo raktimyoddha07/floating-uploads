@@ -29,7 +29,7 @@ export default async function NotificationsPage() {
         </p>
       </div>
 
-      <Card className="glass-card">
+      <Card>
         <CardHeader>
           <CardTitle>Recent Activity</CardTitle>
           <CardDescription>
@@ -44,7 +44,7 @@ export default async function NotificationsPage() {
           ) : (
             notifications.map((notification) => (
               <Link key={notification.id} href={notification.link || "/notifications"}>
-                <div className={`rounded-xl border p-4 transition-colors hover:bg-muted/30 ${notification.isRead ? "bg-background/30" : "bg-primary/5 border-primary/20"}`}>
+                <div className={`rounded-md border p-4 transition-colors hover:bg-muted/50 ${notification.isRead ? "" : "bg-primary/5 border-primary/20"}`}>
                   <div className="flex items-center justify-between gap-4 mb-2">
                     <div className="flex items-center gap-2">
                       <h3 className="font-medium">{notification.title}</h3>
